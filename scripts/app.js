@@ -1,27 +1,28 @@
-const cityForm = document.querySelector('form');
+const form = document.querySelector('form');
 const card = document.querySelector('.card');
 const details = document.querySelector('.details');
 const time = document.querySelector('img.time')
 const icon = document.querySelector('.icon > img');
+
+//CALLING THE CONSTRUCTOR CLASS FOR INFORMATION FROM FORECAST.JS
+const weather = new WeatherInformation();
+
 
 //local storage function
 const storingData = (location) => {
     localStorage.setItem('weatherData', location);
 }
 
+
+
+// FUNTION THAT IS UPDATING THE UI
 const updateUI = (data) => {
-    const {cityDet, weatherDet} = data;
-    console.log(data);
- 
+    const {cityDet, weatherDet} = data; 
 
     if(weatherDet.IsDayTime){
         time.setAttribute('src', 'images/day-time.jpg');
-        if(localStorage.getItem('weatherData')){
-            localStorage.clear();
-            storingData(cityDet.EnglishName);
-        }else {
-            storingData(cityDet.EnglishName);
-        }
+        storingData(cityDet.EnglishName);
+
         details.innerHTML = 
         `<h5>${cityDet.EnglishName}</h5>
         <div>Day Time, ${weatherDet.WeatherText}</div>
@@ -29,14 +30,11 @@ const updateUI = (data) => {
             <span>${weatherDet.Temperature.Metric.Value}</span>
             <span>&deg;C</span>
         </p>`;
-    }else {
+    }
+    else {
         time.setAttribute('src', 'images/night-time.jpg');
-        if(localStorage.getItem('weatherData')){
-            localStorage.clear();
-            storingData(cityDet.EnglishName);
-        }else {
-            storingData(cityDet.EnglishName);
-        }
+        storingData(cityDet.EnglishName);
+
         details.innerHTML = 
         `<h5>${cityDet.EnglishName}</h5>
         <div>Night Time, ${weatherDet.WeatherText}</div>
@@ -53,22 +51,19 @@ const updateUI = (data) => {
     }
 }
 
-const weatherInfo = async (city) => {
-    const cityDet = await getCity(city);
-    const weatherDet = await getWeather(cityDet.Key);
-    return { cityDet, weatherDet}
-}
 
-cityForm.addEventListener('submit', (e) => {
+
+//UPDATING OR ADDING THE WEATHER INFO TO CARD WHEN THE INPUT IS SUBMITTED
+form.addEventListener('submit', (e) => {
     //prevent default location
     e.preventDefault();
     
     //get city value
-    const city = cityForm.city.value.trim();
-    cityForm.reset();
+    const city = form.city.value.trim();
+    form.reset();
 
     //update the UI with new city
-    weatherInfo(city)
+    weather.weatherInfo(city)
         .then(data => {
             updateUI(data);
         })
@@ -78,9 +73,10 @@ cityForm.addEventListener('submit', (e) => {
         });
 })
 
+//ADDING THE WEATHER INFORMATION FROM THE LOCATION THAT HAS ALREADY STORED INTO THE LOCAL STORAGE
 document.addEventListener('DOMContentLoaded', () => {
     const city = localStorage.getItem('weatherData');
-    weatherInfo(city).then((data) => {
+    weather.weatherInfo(city).then((data) => {
         updateUI(data);
     })
 })
