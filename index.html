@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>ZeeshanWeather</title>
+</head>
+<body>
+    <div class="container">
+        <h1>ZeeshanWeather</h1>
+        <form class="change-location">
+            <label for="city">Enter a location for weather information</label>
+            <input type="text" name="city" placeholder="spell the location correctly" autocomplete="off">
+        </form>
+        <div class="card d-none">
+            <img src="https://via.placeholder.com/450x400" class="time">
+            <div class="icon">
+                <img src="" alt="weather condition image">
+            </div>
+            <div class="details">
+                <h5>City Name</h5>
+                <div>Weaher condition</div>
+                <p>
+                    <span>TEMP</span>
+                    <span>&deg;C</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/forecast.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
