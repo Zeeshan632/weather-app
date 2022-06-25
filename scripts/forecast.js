@@ -17,6 +17,7 @@ class WeatherInformation {
 			this.cityURI + `?apikey=${this.key}&q=${city}`
 		);
 		const data = await response.json();
+		console.log(data);
 		return data[0];
 	}
 	async weatherInfo(city) {
